@@ -8,9 +8,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "bun --filter \"*\" dev",
-    "dev:server": "bun --filter server dev",
-    "dev:web": "bun --filter web dev",
+    "dev": "bun scripts/dev.ts",
+    "dev:server": "bun --watch apps/server/src/index.ts",
+    "dev:web": "bun build ./apps/web/src/index.tsx --outdir ./apps/web/dist --target browser --watch",
     "build": "bun --filter web build",
     "start": "bun apps/server/src/index.ts",
     "test": "bun test",
