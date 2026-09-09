@@ -26,8 +26,8 @@ jobs:
       - name: Type check
         run: bun run check
 
-      - name: Run tests
-        run: bun test
-
       - name: Build frontend
         run: bun run build
+
+      - name: Run tests
+        run: bun test
