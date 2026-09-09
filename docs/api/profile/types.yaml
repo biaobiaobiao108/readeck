@@ -1,0 +1,156 @@
+---
+# SPDX-FileCopyrightText: © 2023 Olivier Meunier <olivier@neokraft.net>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+schemas:
+  authenticationForm:
+    type: object
+    required: [username, password, application]
+    properties:
+      username:
+        type: string
+        description: Username
+      password:
+        type: string
+        description: Password
+      application:
+        type: string
+        description: Application name. This can be anything.
+      roles:
+        type: array
+        items:
+          type: string
+        description: A list of roles to restrict the new token access.
+    example:
+      username: alice
+      password: "1234"
+      application: api doc
+
+  authenticationResult:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Token ID
+      token:
+        type: string
+        description: Authentication token. This is the value you must store in your application.
+    example:
+      {
+        "id": "RFutYEAVM95DUDLUDnhbQm",
+        "token": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+      }
+
+  userProfile:
+    type: object
+    properties:
+      provider:
+        description: Authentication provider information
+        type: object
+        properties:
+          id:
+            type: string
+            format: short-uid
+            description: Authentication provider ID (ie. the token ID)
+          name:
+            type: string
+            description: Provider name
+          application:
+            type: string
+            description: The registered application name
+          roles:
+            type: array
+            items:
+              type: string
+            description: Roles granted for this session
+          permissions:
+            type: array
+            items:
+              type: string
+            description: Permissions granted for this session
+      user:
+        description: User information
+        type: object
+        properties:
+          username:
+            type: string
+            description: Username
+          email:
+            type: string
+            format: email
+            description: User email
+          created:
+            type: string
+            format: date-time
+            description: Creation date
+          updated:
+            type: string
+            format: date-time
+            description: Last update date
+          settings:
+            description: User settings
+            type: object
+            properties:
+              debug_info:
+                type: boolean
+                description: Enable debug information
+              lang:
+                type: string
+                description: User language
+              addon_reminder:
+                type: boolean
+                description: Reminder to install the addon is shown
+              email_settings:
+                type: object
+                properties:
+                  reply_to:
+                    type: string
+                    format: email
+                    description: Reply-To address used in emails sent when sharing a bookmark
+                  epub_to:
+                    type: string
+                    format: email
+                    description: Default address to send exported EPUB by email
+    example:
+      {
+        "provider": {
+          "name": "bearer token",
+          "id": "YVfNreHpJLg4tkbQqnCDCh",
+          "application": "api doc",
+          "roles": [
+            "bookmarks:read",
+            "bookmarks:write",
+            "profile:read"
+          ],
+          "permissions": [
+            "api:bookmarks:collections:read",
+            "api:bookmarks:collections:write",
+            "api:bookmarks:export",
+            "api:bookmarks:read",
+            "api:bookmarks:share",
+            "api:bookmarks:write",
+            "api:opds:read",
+            "api:profile:info",
+            "api:profile:read",
+            "api:profile:tokens:delete",
+            "bookmarks:read",
+            "email:send"
+          ]
+        },
+        "user": {
+          "username": "alice",
+          "email": "alice@localhost",
+          "created": "2023-08-27T13:32:11.704606963Z",
+          "updated": "2026-04-07T23:20:02.197979988Z",
+          "settings": {
+            "debug_info": false,
+            "lang": "en",
+            "addon_reminder": false,
+            "email_settings": {
+              "reply_to": "",
+              "epub_to": ""
+            }
+          }
+        }
+      }

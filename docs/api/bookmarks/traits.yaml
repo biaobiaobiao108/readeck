@@ -1,0 +1,37 @@
+---
+# SPDX-FileCopyrightText: © 2024 Olivier Meunier <olivier@neokraft.net>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+sortable:
+  parameters:
+    - name: sort
+      in: query
+      description: Sorting parameters
+      schema:
+        type: array
+        items:
+          type: string
+          enum:
+            - created
+            - -created
+            - domain
+            - -domain
+            - duration
+            - -duration
+            - published
+            - -published
+            - site
+            - -site
+            - title
+            - -title
+            - random
+    - name: seed
+      in: query
+      description: |
+        Seed for random ordering.
+        Only needed when using `?sort=random`
+      schema:
+        type: integer
+        minimum: 0
+        maximum: 999999

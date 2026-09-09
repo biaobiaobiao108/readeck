@@ -1,0 +1,63 @@
+---
+# SPDX-FileCopyrightText: © 2023 Olivier Meunier <olivier@neokraft.net>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Readeck API
+  description:
+    $include:
+      - base.md
+      - oauth.md
+
+
+servers:
+  - url: __BASE_URI__
+
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: Bearer
+
+  schemas:
+    $merge:
+      - "types.yaml#.schemas"
+      - "oauth/types.yaml#.schemas"
+      - "bookmarks/types.yaml#.schemas"
+      - "profile/types.yaml#.schemas"
+      - "cookbook/routes.yaml#.schemas"
+
+security:
+  - bearer: []
+
+tags:
+  - name: info
+  - name: user profile
+  - name: bookmarks
+  - name: bookmark export
+  - name: bookmark sharing
+  - name: bookmark labels
+  - name: bookmark highlights
+  - name: bookmark collections
+  - name: bookmark sync
+    x-tag-expanded: false
+  - name: bookmark import
+    x-tag-expanded: false
+  - name: dev tools
+    x-tag-expanded: false
+  - name: oauth
+    x-tag-expanded: false
+
+paths:
+  $merge:
+    - "info/routes.yaml#.routes"
+    - "oauth/routes.yaml#.routes"
+    - "profile/routes.yaml#.routes"
+    - "bookmarks/routes-bookmarks.yaml#.routes"
+    - "bookmarks/routes-collections.yaml#.routes"
+    - "bookmarks/routes-import.yaml#.routes"
+    - "bookmarks/routes-sync.yaml#.routes"
+    - "cookbook/routes.yaml#.routes"

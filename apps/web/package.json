@@ -1,0 +1,28 @@
+{
+  "name": "web",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun run build:html && bun run build:css && bun run build:js --watch",
+    "build:html": "bun build.ts",
+    "build:css": "tailwindcss -i ./src/index.css -o ./dist/index.css --minify",
+    "build:js": "bun build ./src/index.tsx --outdir ./dist --target browser --minify",
+    "build": "bun run build:html && bun run build:css && bun run build:js",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@readeck/shared": "workspace:*",
+    "lucide-react": "^1.16.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.3",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^7.0.2"
+  }
+}

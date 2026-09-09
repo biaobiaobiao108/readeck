@@ -1,0 +1,853 @@
+# Japanese translations for Readeck User Documentation.
+# SPDX-FileCopyrightText: © 2026 Readeck <translate@readeck.com>
+#
+# SPDX-License-Identifier: AGPL-3.0-only
+# Anonymous <anonymous@noreply.codeberg.org>, 2026.
+# boronology <boronology@noreply.codeberg.org>, 2026.
+# γλωσσολαλιά <glossolalia@noreply.codeberg.org>, 2026.
+msgid ""
+msgstr ""
+"Project-Id-Version: Readeck User Documentation 1.0.0\n"
+"Report-Msgid-Bugs-To: translate@readeck.com\n"
+"POT-Creation-Date: 2026-07-22 09:42+0200\n"
+"PO-Revision-Date: 2026-08-05 12:00+0000\n"
+"Last-Translator: boronology <boronology@noreply.codeberg.org>\n"
+"Language-Team: Japanese <https://translate.codeberg.org/projects/readeck/documentation/ja/>\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2026.7.1\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: en/bookmark-list.md:1
+msgid "# Bookmarks"
+msgstr "# ブックマークについて"
+
+#: en/bookmark-list.md:3
+msgid "Bookmarks are where you save the web content you like."
+msgstr "ブックマークとはあなたが保存したWebコンテンツがある場所です。"
+
+#: en/bookmark-list.md:5
+msgid "## Create a new Bookmark"
+msgstr "## 新しいブックマークを作るには"
+
+#: en/bookmark-list.md:7
+msgid "Found a web page you like? Great! Copy its link into the text field named **new bookmark** on the [Bookmark List](readeck-instance://bookmarks)."
+msgstr "気に入ったWebページを見つけましたか？ すばらしい！ そのページのリンクを[ブックマークリスト](readeck-instance://bookmarks) で**新しいブックマーク** とある入力欄にコピーしてください。"
+
+#: en/bookmark-list.md:9
+msgid "![New Bookmark form](./img/bookmark-new.webp)"
+msgstr "![新しいブックマークフォームの画像](./img/bookmark-new.webp)"
+
+#: en/bookmark-list.md:11
+msgid "After a few seconds, your bookmark will be ready. You can then open it to read or watch its content, add labels, highlight text or export an ebook. For more information, please read the [Bookmark View](./bookmark.md) section."
+msgstr "少し待つとブックマークが利用可能になります。ブックマークを開くとその中身を見て、ラベルを付け、文章をハイライトし、電子書籍としてエクスポートもできます。さらに詳しく知りたい場合は [ブックマーク画面](./bookmark.md) をご覧ください。"
+
+#: en/bookmark-list.md:13
+msgid "## Bookmark type"
+msgstr "## ブックマークの種類"
+
+#: en/bookmark-list.md:15
+msgid "Readeck recognizes 3 different types of web content:"
+msgstr "Readeckは3種類のWebコンテンツを扱えます。"
+
+#: en/bookmark-list.md:17 en/bookmark.md:17
+msgid "### Article"
+msgstr "### 記事"
+
+#: en/bookmark-list.md:19 en/bookmark.md:19
+msgid "An article is a page from which the text content was extracted. It renders as a readable version of its content."
+msgstr "Webページからテキストコンテンツを抽出したものが「記事」です。記事ではそのコンテンツを読める形で表示します。"
+
+#: en/bookmark-list.md:21 en/bookmark.md:21
+msgid "### Picture"
+msgstr "### 画像"
+
+#: en/bookmark-list.md:23 en/bookmark.md:23
+msgid "A picture is a page that was recognized as a picture container (ie. a link to Unsplash). It renders the stored picture."
+msgstr "「画像」は画像を格納しているページです（例：Unsplashへのリンク）。Readeckに保存された画像を表示しています。"
+
+#: en/bookmark-list.md:25 en/bookmark.md:25
+msgid "### Video"
+msgstr "### 動画"
+
+#: en/bookmark-list.md:27 en/bookmark.md:27
+msgid "A video is a page that was identified as a video container (ie. a link to Youtube or Vimeo). It renders a video player. Please note that videos are played from their respective remote servers."
+msgstr "「動画」ページは動画を格納しています（例：YoutubeやVimeoへのリンク）。動画プレイヤーを表示しますが、動画自体は保存元のサーバーにあるものを再生しています。"
+
+#: en/bookmark-list.md:30
+msgid "## Bookmark List"
+msgstr "## ブックマークリスト"
+
+#: en/bookmark-list.md:32
+msgid "The [bookmark list](readeck-instance://bookmarks) is where you'll find all your saved bookmarks."
+msgstr "保存したブックマークはすべて [ブックマークリスト](readeck-instance://bookmarks) にあります。"
+
+#: en/bookmark-list.md:34
+msgid "### Navigation"
+msgstr "### ナビゲーション"
+
+#: en/bookmark-list.md:36
+msgid "On the sidebar, you'll find a search field and links that will take you to filtered bookmark lists."
+msgstr "サイドバーでは検索ができるほか、ブックマークリストを絞り込んで表示するリンクもあります。"
+
+#: en/bookmark-list.md:38
+msgid "![Bookmark list sidebar](./img/bookmark-sidebar.webp)"
+msgstr "![ブックマークリストのサイドバー](./img/bookmark-sidebar.webp)"
+
+#: en/bookmark-list.md:40
+msgid ""
+"- **Search** \\\n"
+"  Enter any search term (title, content, website...)\n"
+"- **All** \\\n"
+"  All your bookmarks.\n"
+"- **Unread** \\\n"
+"  The bookmarks that are not in the archive.\n"
+"- **Archive** \\\n"
+"  The bookmarks you marked as archived.\n"
+"- **Favorites** \\\n"
+"  The bookmarks you marked as favorite."
+msgstr ""
+"- **検索** \\\n"
+"  検索したいキーワードを入力します（タイトル、内容、Webサイトなど）。\n"
+"- **すべて** \\\n"
+"  すべてのブックマークを表示します。\n"
+"- **未読** \\\n"
+"  「アーカイブ済み」ではないブックマークを表示します。\n"
+"- **アーカイブ** \\\n"
+"  「アーカイブ済み」としてマークしたブックマークを表示します。\n"
+"- **お気に入り** \\\n"
+"  「お気に入り」としてマークしたブックマークを表示します。"
+
+#: en/bookmark-list.md:52
+msgid "Once you start saving pages, you'll see the following additional links:"
+msgstr "何かページを保存していれば、さらに以下のリンクも表示されます。"
+
+#: en/bookmark-list.md:54
+msgid ""
+"- **Articles** \\\n"
+"  Your article bookmarks\n"
+"- **Videos** \\\n"
+"  Your video bookmarks\n"
+"- **Pictures** \\\n"
+"  Your picture bookmarks"
+msgstr ""
+"- **記事** \\\n"
+"  種類が「記事」のブックマークです\n"
+"- **動画** \\\n"
+"  種類が「動画」のブックマークです\n"
+"- **画像** \\\n"
+"  種類が「画像」のブックマークです"
+
+#: en/bookmark-list.md:61
+msgid "Finally, you'll see 3 more sections that take you to bookmark related pages:"
+msgstr "最後に、ブックマーク関連のページに移動できるリンクが3つあります。"
+
+#: en/bookmark-list.md:63
+msgid ""
+"- **[Labels](./labels.md)** \\\n"
+"  All your bookmark labels\n"
+"- **Highlights** \\\n"
+"  All the highlights created on your bookmarks\n"
+"- **[Collections](./collections.md)** \\\n"
+"  The list of all your collections"
+msgstr ""
+"- **[ラベル](./labels.md)** \\\n"
+"  ブックマークに付けたラベルの一覧です\n"
+"- **ハイライト** \\\n"
+"  ブックマーク上に付けたハイライトの一覧です\n"
+"- **[コレクション](./collections.md)** \\\n"
+"  作成したコレクションの一覧です"
+
+#: en/bookmark-list.md:70
+msgid "### Bookmark Cards"
+msgstr "### ブックマークカード"
+
+#: en/bookmark-list.md:72
+msgid "Each item on a list is called a Bookmark Card."
+msgstr "ブックマークリストにあるひとつひとつの項目がブックマークカードです。"
+
+#: en/bookmark-list.md:74
+msgid ""
+"![Bookmark List](./img/bookmark-list.webp)\n"
+"Grid Bookmark List"
+msgstr ""
+"![ブックマークリスト](./img/bookmark-list.webp)\n"
+"グリッド表示のブックマークリスト"
+
+#: en/bookmark-list.md:77
+msgid "A card shows:"
+msgstr "カードには以下の内容が表示されています。"
+
+#: en/bookmark-list.md:79
+msgid ""
+"- the **title** on which you can click to watch or read the bookmark,\n"
+"- the **site name**,\n"
+"- the estimated **reading time**,\n"
+"- the **label list**,\n"
+"- **action buttons**"
+msgstr ""
+"- **タイトル** 。ブックマークを読むにはここをクリックします。\n"
+"- **サイト名**\n"
+"- コンテンツから推定した **読むのにかかる時間**\n"
+"- **ラベルのリスト**\n"
+"- **アクションボタン**"
+
+#: en/bookmark-list.md:85
+msgid "The action buttons perform the following:"
+msgstr "アクションボタンでは以下のことができます。"
+
+#: en/bookmark-list.md:87
+msgid ""
+"- **Favorite** \\\n"
+"  This toggles the favorite status of the bookmark.\n"
+"- **Archive** \\\n"
+"  This moves the bookmark to the archives (or removes it from there).\n"
+"- **Delete** \\\n"
+"  This marks the bookmark for deletion (it can be canceled during a few seconds)."
+msgstr ""
+"- **お気に入り** \\\n"
+"  ブックマークをお気に入りにするかどうかを切り替えます。\n"
+"- **アーカイブ** \\\n"
+"  ブックマークをアーカイブに移動します（逆にアーカイブから外すこともできます）。\n"
+"- **削除** \\\n"
+"  ブックマークを削除します（クリック後数秒間はキャンセルできます）。"
+
+#: en/bookmark-list.md:94
+msgid "### Compact List"
+msgstr "### コンパクトなリスト"
+
+#: en/bookmark-list.md:96
+msgid "If you find the bookmark grid view too busy, you can switch to a more compact list with less images. Click on the button next to the title to switch from the grid view to the compact view."
+msgstr "グリッド表示がくどくて見づらいときは、画像の少ないコンパクトなリストに切り替えもできます。タイトルの右にあるスイッチをクリックすると、リストをグリッド表示からコンパクトな表示に切り替えます。"
+
+#: en/bookmark-list.md:98
+msgid ""
+"![Bookmark Compact List](./img/bookmark-list-compact.webp)\n"
+"Compact Bookmark List"
+msgstr ""
+"![コンパクトな表示のブックマークリスト](./img/bookmark-list-compact.webp)\n"
+"コンパクトなブックマークリスト"
+
+#: en/bookmark-list.md:101
+#, python-brace-format
+msgid "## Filter Bookmarks {#filters}"
+msgstr "## ブックマークの絞り込み {#filters}"
+
+#: en/bookmark-list.md:103
+msgid "On the bookmark list, you can filter your results based on one or several criteria. Click on the button \"Filter list\" next to the page title to open the filtering form."
+msgstr "ブックマークリストでは条件に基づいて結果の絞り込みができます。絞り込みのフォームを開くには、ページタイトルの横にある「リストの絞り込み」ボタンを押します。"
+
+#: en/bookmark-list.md:105
+msgid ""
+"![Bookmark list filters](./img/bookmark-filters.webp)\n"
+"The filter form"
+msgstr ""
+"![ブックマークリストの絞り込み](./img/bookmark-filters.webp)\n"
+"絞り込みフォーム"
+
+#: en/bookmark-list.md:108
+msgid "Enter any criteria and click on **Search**."
+msgstr "条件を入力して **Search**をクリックします。"
+
+#: en/bookmark-list.md:110
+msgid "### Available filters"
+msgstr "### 使用できる絞り込み"
+
+#: en/bookmark-list.md:112
+msgid "You can combine the following filters:"
+msgstr "以下の絞り込みを組み合わせて使用できます。"
+
+#: en/bookmark-list.md:114
+msgid ""
+"- **Search**\\\n"
+"  Search in the bookmark's text, its title, its authors, its site name and domain and the labels.\n"
+"- **Title**\\\n"
+"  Search in the title only.\n"
+"- **Author**\\\n"
+"  Search in the author list only.\n"
+"- **Site**\\\n"
+"  Search in the site title and the site domain name.\n"
+"- **Language**\\\n"
+"  Filter the list by bookmark language as an two letter code.\n"
+"- **Label**\\\n"
+"  Search for specific labels.\n"
+"- **Note**\\\n"
+"  Search for a note or annotation.\n"
+"- **Type**, **Progress**, **Is Favorite**, **Is Archived**, **Is Loaded**, **With Labels**, **With Notes**, **With Errors** \\\n"
+"  This filters let you restrict your search to any of these criteria.\n"
+"- **From date**, **To date**\\\n"
+"  This last filters let you restrict from when and to when the bookmark was saved. For example, this lets you retrieve the bookmark list saved during the past 4 weeks but not after the last week."
+msgstr ""
+"- **検索**\\\n"
+"  ブックマークのテキスト、タイトル、著者、サイト名、ドメイン、ラベルから検索します。\n"
+"- **タイトル**\\\n"
+"  タイトルだけから検索します。\n"
+"- **著者**\\\n"
+"  著者で検索します。\n"
+"- **サイト**\\\n"
+"  サイトのタイトルとドメイン名で検索します。\n"
+"- **言語**\\\n"
+"  2文字の言語コードでリストを絞り込みます。\n"
+"- **ラベル**\\\n"
+"  指定したラベルの付いたブックマークを検索します。\n"
+"- **ノート**\\\n"
+"  ノートや注釈を検索します。\n"
+"- **種類**、**進行状況**、 **お気に入り**、 **アーカイブ済み**、**読み込み済み**、**ラベルあり**、**ノートあり**、**エラーあり** \\\n"
+"  それぞれの条件に合致したものだけから検索します。\n"
+"- **開始日**、 **終了日**\\\n"
+"  指定した期間内に保存したブックマークに限定します。たとえば、過去4週間内かつ1週間以上前に保存したブックマークだけを取得することもできます。"
+
+#: en/bookmark-list.md:133
+msgid "### Search query"
+msgstr "### 検索クエリ"
+
+#: en/bookmark-list.md:135
+msgid "The **Search**, **Title**, **Author**, **Site** and **Label** fields understand search criteria the same way:"
+msgstr "**検索**、 **タイトル**、**著者**、**サイト** 、**ラベル**のどのフィールドでも同じ方法で条件を指定できます。"
+
+#: en/bookmark-list.md:137
+msgid ""
+"- `startled cat` will find the content with the words **startled** and **cat**\n"
+"- `\"startled cat\"` will find the content with the exact words **startled cat** together.\n"
+"- `cat*` will find the content with the words starting with **cat** (cat, catnip and caterpillar would be a match).\n"
+"- `-startled cat` will find the content with the word **cat** but NOT the word **startled**."
+msgstr ""
+"- `startled cat`は**startled**と**cat**を含む記事を検索します。\n"
+"- `\"startled cat\"`は**startled cat**という語の並びを含む記事を検索します。\n"
+"- `cat*`は**cat**から始まる語（cat, catnip and caterpillarなど）を含む記事を検索します。\n"
+"- `-startled cat`は**cat**を含み、かつ**startled**を含まない記事を検索します。"
+
+#: en/bookmark-list.md:143
+msgid "After you performed a search, you can save it into a new [collection](./collections.md) to make it permanent."
+msgstr "検索を実行したあとは、検索条件を新しい[コレクション](./collections.md)として保存し、永続化できます。"
+
+#: en/bookmark-list.md:145
+msgid "## Export and Import Bookmarks"
+msgstr "## ブックマークのエクスポートとインポート"
+
+#: en/bookmark-list.md:147
+msgid ""
+"![Menu](./img/bookmark-list-menu.webp)\n"
+"Bookmark list menu"
+msgstr ""
+"![メニュー](./img/bookmark-list-menu.webp)\n"
+"ブックマークリストのメニュー"
+
+#: en/bookmark-list.md:150
+msgid "### Export bookmarks"
+msgstr "ブックマークのエクスポート"
+
+#: en/bookmark-list.md:152
+msgid "The menu button next to the filters button let you download an EPUB file of the current list of bookmarks. It exports one e-book containing all the articles organized in chapters."
+msgstr "絞り込みボタンの横にあるメニューボタンから、ブックマークのリストをEPUBファイルとしてダウンロードできます。この機能では表示中の記事をそれぞれ章として格納した一つの電子書籍をエクスポートします。"
+
+#: en/bookmark-list.md:154
+msgid "### Import bookmarks"
+msgstr "### ブックマークのインポート"
+
+#: en/bookmark-list.md:156
+msgid "In the same menu, you'll find a [Import bookmarks](readeck-instance://bookmarks/import) link. It will take you to an import wizard that lets you import your existing bookmarks from various sources."
+msgstr "同じメニューに[ブックマークのインポート](readeck-instance://bookmarks/import)のリンクがあります。ここからインポートウィザードに進むと、さまざまなソースから既存のブックマークをインポートできます。"
+
+#: en/bookmark.md:1
+msgid "# Bookmark View"
+msgstr "# ブックマーク画面"
+
+#: en/bookmark.md:3
+msgid "## The view"
+msgstr "## 画面表示"
+
+#: en/bookmark.md:5
+msgid ""
+"![The bookmark view](./img/bookmark-view.webp)\n"
+"The bookmark view of an article."
+msgstr ""
+"![ブックマーク画面](./img/bookmark-view.webp)\n"
+"記事を表示しているブックマーク画面。"
+
+#: en/bookmark.md:8
+msgid "The bookmark view is divided in 3 sections:"
+msgstr "ブックマークのページは3つのセクションに分かれています。"
+
+#: en/bookmark.md:10
+msgid ""
+"- On top, the navigation and presentation settings,\n"
+"- The content,\n"
+"- A sidebar with information, labels, highlights and actions."
+msgstr ""
+"- 上部のナビゲーションと表示設定\n"
+"- 内容\n"
+"- 情報、ラベル、ハイライト、操作を提供するサイドバー"
+
+#: en/bookmark.md:15
+msgid "A bookmark renders its content based on its type. There are 3 types:"
+msgstr "ブックマークはその種類に基づいて内容を表示します。ブックマークの種類は3つあります。"
+
+#: en/bookmark.md:30
+msgid "## Navigation and presentation settings"
+msgstr "## ナビゲーションと表示設定"
+
+#: en/bookmark.md:32
+msgid "On the side or on top of the bookmark view, a link takes you back to the previous page."
+msgstr "ブックマーク画面の横、または上部には前のページに戻るリンクがあります。"
+
+#: en/bookmark.md:34
+msgid "If the bookmark contains an article, a button lets you change some typography settings."
+msgstr "ブックマークが記事のときは、書式設定の変更ができるボタンがあります。"
+
+#: en/bookmark.md:36
+msgid ""
+"![Bookmark typography settings](./img/bookmark-typography.webp)\n"
+"Typography settings."
+msgstr ""
+"![ブックマークの書式設定](./img/bookmark-typography.webp)\n"
+"書式設定。"
+
+#: en/bookmark.md:39
+msgid ""
+"There you can set the font used for the text, the font size and the line height.\\\n"
+"This settings are automatically saved for you and will apply to any article you read later."
+msgstr ""
+"フォント、フォントサイズ、行間を設定できます。\\\n"
+"設定は自動的に保存され、以降に開くどの記事でも同じ設定が反映されます。"
+
+#: en/bookmark.md:43
+msgid "## Edit information"
+msgstr "## 情報の編集"
+
+#: en/bookmark.md:45
+msgid "Several information such as the title or description are automatically grabbed when you create a bookmark. If you need to change these properties, you can click on the edit side button to open a form."
+msgstr "タイトルや説明文のような特定の情報はブックマーク作成時に自動的に取得しています。手動で変更したければ横にある編集ボタンを押してフォームを開いてください。"
+
+#: en/bookmark.md:47
+msgid "## Actions"
+msgstr "## 操作"
+
+#: en/bookmark.md:49
+msgid "On the bookmark sidebar, you can perform actions."
+msgstr "ブックマークのサイドバーからはさまざまな操作ができます。"
+
+#: en/bookmark.md:51
+msgid "### Favorite"
+msgstr "### お気に入り"
+
+#: en/bookmark.md:53
+msgid "This toggles the favorite status of the bookmark."
+msgstr "お気に入りの状態を切り替えます。"
+
+#: en/bookmark.md:55
+msgid "### Archive"
+msgstr "### アーカイブ"
+
+#: en/bookmark.md:57
+msgid "This moves the bookmark to the archives (or removes it from there)."
+msgstr "ブックマークをアーカイブに移動します（すでにアーカイブにあればアーカイブから除外します）。"
+
+#: en/bookmark.md:59
+msgid "### Share"
+msgstr "### 共有"
+
+#: en/bookmark.md:61
+msgid "The share button opens a menu from which you can create a link if you want to share an article with someone."
+msgstr "記事を誰かと共有したいときは、このボタンを押して開いたメニューからリンクを作成できます。"
+
+#: en/bookmark.md:63
+msgid "On the same menu, you can export your bookmark (only EPUB for now) to read it on a different device."
+msgstr "他の端末でブックマークを読むには、同じメニューからはブックマークをエクスポートできます（現時点ではEPUB形式のみです）。"
+
+#: en/bookmark.md:66
+msgid "### Delete"
+msgstr "### 削除"
+
+#: en/bookmark.md:68
+msgid ""
+"This marks the bookmark for deletion.\\\n"
+"No worries if you click on this by mistake! This action can be canceled before actual deletion."
+msgstr ""
+"ブックマークを削除予定にします。\\\n"
+"間違えて押してしまっても心配いりません！本当に削除される前ならキャンセルできます。"
+
+#: en/bookmark.md:72
+msgid "## Labels"
+msgstr "## ラベル"
+
+#: en/bookmark.md:74
+msgid "You can add as many labels as you want to a bookmark. To do so, enter some text in the label field and click on **Add label**. There is no limit as to what can be a label. You can even add emojis if you like them."
+msgstr "ブックマークにはいくつでもラベルをつけることができます。ラベルをつけるにはラベルのフィールドに文字列を入力して**ラベルを追加**をクリックします。ラベルにできる文字列に制限はありません。お好みであれば絵文字もラベルにできます。"
+
+#: en/bookmark.md:76
+msgid ""
+"![Bookmark labels form](./img/bookmark-labels.webp)\n"
+"Add a new label."
+msgstr ""
+"![ブックマークのラベル入力欄](./img/bookmark-labels.webp)\n"
+"新しいラベルを追加。"
+
+#: en/bookmark.md:79
+msgid "Please read the [Labels](./labels.md) section for more information."
+msgstr "より詳しくは [ラベル](./labels.md) のセクションをご覧ください。"
+
+#: en/bookmark.md:81
+msgid "## Highlights"
+msgstr "## ハイライト"
+
+#: en/bookmark.md:83
+msgid ""
+"Found some interesting part in an article? You can highlight it!\\\n"
+"When you select any text in the article, a menu appears that lets you create a new highlight."
+msgstr ""
+"記事のなかに目を引く箇所がありましたか？そこをハイライトしましょう！\\\n"
+"記事のなかの文字列を選択するとメニューが表示され、ハイライトを作成できます。"
+
+#: en/bookmark.md:86
+msgid ""
+"![Bookmark highlight creation](./img/bookmark-highlight.webp)\n"
+"Create a new highlight."
+msgstr ""
+"![ブックマークのハイライトを作成](./img/bookmark-highlight.webp)\n"
+"新しいハイライトを作成。"
+
+#: en/bookmark.md:89
+msgid "Your highlights appear in the sidebar."
+msgstr "ハイライトした部分はサイドバーに表示されます。"
+
+#: en/bookmark.md:91
+msgid "When you need to remove an highlight, you can do it from the sidebar or by selecting it in the article."
+msgstr "ハイライトを削除したいときはサイドバーから、または記事のなかで該当部分を選択すると削除ができます。"
+
+#: en/collections.md:1
+msgid "# Collections"
+msgstr "# コレクション"
+
+#: en/collections.md:3
+msgid ""
+"Collections let you easily organize and export your bookmarks\n"
+"by saving search requests of your choice.\n"
+"When you create a new bookmark that matches a collection's criteria,\n"
+"it will appear immediately.\n"
+"Here are some examples:"
+msgstr ""
+"検索リクエストをコレクションとして保存すると、\n"
+"ブックマークを簡単にまとめたり、エクスポートしたりできます。\n"
+"コレクションの条件に合致するブックマークを新しく作成すると、\n"
+"ただちにコレクションに表示されます。\n"
+"以下はその例です。"
+
+#: en/collections.md:9
+msgid ""
+"- The unread articles (no picture or videos),\n"
+"- The archived articles from \"wikipedia.org\",\n"
+"- The pictures with the label \"cat\",\n"
+"- The articles that contain \"climate\" in their title."
+msgstr ""
+"- 未読の記事（画像でも動画でもなく）\n"
+"- アーカイブ済みの\"wikipedia.org\"からの記事\n"
+"- \"cat\"のラベルの付いた画像\n"
+"- タイトルに\"climate\"を含む記事"
+
+#: en/collections.md:14
+msgid "## Create a new collection"
+msgstr "## 新しいコレクションを作成する"
+
+#: en/collections.md:16
+msgid "To create a new collection, go to the [Collection List](readeck-instance://bookmarks/collections) and click on **Create a new collection**."
+msgstr "新しくコレクションを作るには、[コレクションの一覧](readeck-instance://bookmarks/collections)のページで**新規コレクションを作成**をクリックします。"
+
+#: en/collections.md:18
+msgid ""
+"![New Collection form](./img/collection-new.webp)\n"
+"The collection form"
+msgstr ""
+"![新規コレクション作成フォーム](./img/collection-new.webp)\n"
+"コレクションのフォーム"
+
+#: en/collections.md:21
+msgid "Enter any criteria and click on **Save**."
+msgstr "任意の条件を入力して**保存**をクリックします。"
+
+#: en/collections.md:23
+msgid "Please refer to [bookmark filters](./bookmark-list.md#filters) for more details about filtering."
+msgstr "絞り込みについての詳細は [ブックマークの絞り込み](./bookmark-list.md#filters)を参照してください。"
+
+#: en/collections.md:25
+msgid "## Export a collection"
+msgstr "## コレクションのエクスポート"
+
+#: en/collections.md:27
+msgid "On a collection page, you can export the full collection to a file."
+msgstr "コレクションのページでは、コレクション全体を1つのファイルにまとめてエクスポートできます。"
+
+#: en/collections.md:29
+msgid "For now, only EPUB is available and exports the full collection as a single book."
+msgstr "現時点ではEPUB形式だけが利用でき、コレクション全体を1つの電子書籍ファイルとして出力します。"
+
+#: en/collections.md:32
+msgid "## Delete a collection"
+msgstr "## コレクションの削除"
+
+#: en/collections.md:34
+msgid "On a collection page, open the **Edit** box and click on **Delete**."
+msgstr "コレクションのページで**編集**のボックスを開き、**削除**をクリックします。"
+
+#: en/collections.md:36
+msgid "This operation can be cancelled during a few seconds, in case you made a mistake."
+msgstr "誤って操作した場合には、数秒以内であればキャンセルができます。"
+
+#: en/index.md:1
+msgid ""
+"---\n"
+"Title: Table of Contents\n"
+"# !! IMPORTANT: DO NOT TRANSLATE THE PART BELOW\n"
+"TOC:\n"
+"    - \"\"\n"
+"    - bookmark-list\n"
+"    - bookmark\n"
+"    - labels\n"
+"    - collections\n"
+"    - opds\n"
+"    - user-profile\n"
+"---"
+msgstr ""
+"---\n"
+"Title: 目次\n"
+"# !! 重要：以下は翻訳しないこと!!\n"
+"TOC:\n"
+"    - \"\"\n"
+"    - bookmark-list\n"
+"    - bookmark\n"
+"    - labels\n"
+"    - collections\n"
+"    - opds\n"
+"    - user-profile\n"
+"---"
+
+#: en/index.md:14
+msgid "# Readeck Help"
+msgstr "# Readeckのヘルプ"
+
+#: en/index.md:16
+msgid "Welcome to Readeck! Here you'll find the answers to most of your questions regarding Readeck and some tips to improve your experience even more."
+msgstr "Readeckへようこそ！このページではReadeckに関するよくある質問と回答や、使い勝手を向上させるコツを紹介します。"
+
+#: en/index.md:18
+msgid "## Contents"
+msgstr "## 内容"
+
+#: en/index.md:20
+msgid ""
+"- [Bookmarks](./bookmark-list.md)\n"
+"- [Bookmark View](./bookmark.md)\n"
+"- [Labels](./labels.md)\n"
+"- [Collections](./collections.md)\n"
+"- [Ebook Catalog](./opds.md)\n"
+"- [User Profile](./user-profile.md)"
+msgstr ""
+"- [ブックマーク](./bookmark-list.md)\n"
+"- [ブックマーク画面](./bookmark.md)\n"
+"- [ラベル](./labels.md)\n"
+"- [コレクション](./collections.md)\n"
+"- [電子書籍カタログ](./opds.md)\n"
+"- [ユーザープロファイル](./user-profile.md)"
+
+#: en/labels.md:1
+msgid "# Labels"
+msgstr "# ラベル"
+
+#: en/labels.md:3
+msgid ""
+"You can [add as many labels as you want to a bookmark](./bookmark.md#labels).\\\n"
+"There is no limit as to what can be a label. You can even add emojis if you like them."
+msgstr ""
+"[ブックマークにはいくつでもラベルを付けられます](./bookmark.md#labels)。\\\n"
+"ラベルに使える文字列に制限はありません。お好みであれば絵文字も使用できます。"
+
+#: en/labels.md:6
+msgid "## Label List"
+msgstr "## ラベルのリスト"
+
+#: en/labels.md:8
+msgid "The [Label List](readeck-instance://bookmarks/labels) shows all the labels in your bookmark collection, with a number indicating how many bookmarks carry a given label."
+msgstr "[ラベルのリスト](readeck-instance://bookmarks/labels)ではブックマークコレクションにあるすべてのラベルと、そのラベルがいくつの記事につけられているかを示す数字を表示します。"
+
+#: en/labels.md:10
+msgid "When you click on a label, you can list all the bookmarks carrying the label."
+msgstr "ラベルをクリックすると、そのラベルの付いたブックマークを一覧表示できます。"
+
+#: en/labels.md:12
+msgid "## Rename a label"
+msgstr "## ラベル名の変更"
+
+#: en/labels.md:14
+msgid "On a given label page, you can click on the page's title (the label) to change its name."
+msgstr "ラベルのページでページタイトル（ラベル）の部分をクリックすると、名前を変更できます。"
+
+#: en/opds.md:1
+msgid "# E-book Catalog"
+msgstr "# 電子書籍のカタログ"
+
+#: en/opds.md:3
+msgid "Readeck provides an E-book Catalog of all your bookmarks, organized in a catalog with the structure below:"
+msgstr "Readeckはすべてのブックマークを以下の構造にまとめた電子書籍カタログを提供しています。"
+
+#: en/opds.md:5
+msgid ""
+"- Unread Bookmarks\n"
+"- Archived Bookmarks\n"
+"- Favorite Bookmarks\n"
+"- All Bookmarks\n"
+"- Bookmark Collections\n"
+"  - (Collection Name)\n"
+"    - Collection E-book\n"
+"    - Browse Collection"
+msgstr ""
+"- 未読のブックマーク\n"
+"- アーカイブ済みのブックマーク\n"
+"- お気に入りのブックマーク\n"
+"- すべてのブックマーク\n"
+"- ブックマークコレクション\n"
+"  - （コレクション名）\n"
+"    - コレクションの電子書籍\n"
+"    - コレクションを閲覧する"
+
+#: en/opds.md:14
+msgid "Each section, except Collections, provides every bookmark as an E-book."
+msgstr "コレクションを除くいずれのセクションでもそれぞれのブックマークを電子書籍として提供しています。"
+
+#: en/opds.md:16
+msgid "On a collection's section, you can download the full collection as a single E-book."
+msgstr "コレクションのセクションでは、コレクションを一つの電子書籍ファイルとしてダウンロードできます。"
+
+#: en/opds.md:19
+msgid "## Catalog access"
+msgstr "## カタログへのアクセス方法"
+
+#: en/opds.md:21
+msgid ""
+"The catalog can be accessed by any app or e-reader supporting the OPDS format.\n"
+"To give access to the catalog, you must first create an [API Token](readeck-instance://profile/tokens)."
+msgstr ""
+"OPDS形式に対応していればどのようなアプリや電子書籍リーダーでもカタログにアクセスできます。\n"
+"カタログにアクセスするにはまず[APIトークン](readeck-instance://profile/tokens)を作成します。"
+
+#: en/opds.md:24
+msgid "**Note**: It's easier to download the token as a text file and transfer it to your e-reader. You can then open the file and copy the token."
+msgstr "**備考**: トークンをダウンロードして電子書籍リーダーに転送するのが簡単です。ファイルを開いてトークンをコピーしましょう。"
+
+#: en/opds.md:26
+msgid ""
+"You can restrict the permission of this token to \"Bookmarks : Read Only\".\n"
+"Write the token value down and setup your app."
+msgstr ""
+"このトークンの権限を「ブックマーク: 読み込みのみ」に制限してもかまいません。\n"
+"トークンを書き出して、アプリのセットアップを行ってください。"
+
+#: en/opds.md:29
+msgid ""
+"The URL of your OPDS catalog is: \\\n"
+"[readeck-instance://opds](readeck-instance://opds)"
+msgstr ""
+"OPDSカタログのURLはこちらです: \\\n"
+"[readeck-instance://opds](readeck-instance://opds)"
+
+#: en/opds.md:33
+msgid "## Example setup: Koreader"
+msgstr "## セットアップ例: Koreader"
+
+#: en/opds.md:35
+msgid "[Koreader](https://koreader.rocks/) is a document viewer for E Ink devices. It's available for Kindle, Kobo, PocketBook, Android and desktop Linux. It has a very good OPDS support."
+msgstr "[Koreader](https://koreader.rocks/)はE-Ink端末向けのドキュメントビューアーです。Kindle、Kobo、PocketBook、Android、デスクトップLinuxでも利用できます。OPDSのサポートも充実しています。"
+
+#: en/opds.md:37
+msgid "Once you have an API Token, you can access the OPDS section in Koreader's lookup menu:"
+msgstr "APIトークンがあれば、Koreaderの検索メニューからOPDSセクションにアクセスできます。"
+
+#: en/opds.md:39
+msgid "![Koreader's lookup menu](../img/koreader-1.webp)"
+msgstr "![Koreaderの検索メニュー](../img/koreader-1.webp)"
+
+#: en/opds.md:41
+msgid "This section shows a list of preconfigured OPDS sources and you can add yours by pressing the \"+\" icon on the top left corner:"
+msgstr "このセクションでは事前に設定済みのOPDSソースが表示されており、左上の\"+\"アイコンを押すと自分のソースを追加できます。"
+
+#: en/opds.md:43
+msgid "![Koreader catalog list](../img/koreader-2.webp)"
+msgstr "![Koreaderのカタログ一覧](../img/koreader-2.webp)"
+
+#: en/opds.md:45
+msgid "In this dialog replace the fields below with:"
+msgstr "このダイアログでは各入力欄の内容を以下のように読み替えてください。"
+
+#: en/opds.md:47
+msgid ""
+"- https://readeck.example.com : `readeck-instance://opds`\n"
+"- alice: your username\n"
+"- your API Token in the last field"
+msgstr ""
+"- https://readeck.example.com を `readeck-instance://opds` に\n"
+"- aliceをあなたのユーザー名に\n"
+"- 最後の入力欄をあなたのAPIトークンに"
+
+#: en/opds.md:51
+msgid "![Koreader add catalog](../img/koreader-3.webp)"
+msgstr "![Koreaderにカタログを追加](../img/koreader-3.webp)"
+
+#: en/opds.md:53
+msgid "You can now access your bookmarks from Koreader!"
+msgstr "Koreaderからブックマークにアクセスできるようになりました！"
+
+#: en/opds.md:55
+msgid "![Koreader readeck catalog](../img/koreader-4.webp)"
+msgstr "![Koreaderに表示されたReadeckのカタログ](../img/koreader-4.webp)"
+
+#: en/user-profile.md:1
+msgid "# User Profile"
+msgstr "# ユーザープロフィール"
+
+#: en/user-profile.md:3
+msgid "The [Profile section](readeck-instance://profile) of Readeck lets you change your personal information, you password and some other settings."
+msgstr "Readeckの[プロフィールのセクション](readeck-instance://profile)では個人情報、パスワード、その他の設定を変更できます。"
+
+#: en/user-profile.md:5
+msgid "## Edit your profile"
+msgstr "## プロフィールの編集"
+
+#: en/user-profile.md:7
+msgid "On the main profile page, you can change your username, your email address and choose the app's language."
+msgstr "プロフィールのメインページではユーザー名、メールアドレス、アプリの言語を変更できます。"
+
+#: en/user-profile.md:9
+msgid "## Change your password"
+msgstr "## パスワードの変更"
+
+#: en/user-profile.md:11
+msgid "On the [Password](readeck-instance://profile/password) page, you can change the password you use to connect to Readeck."
+msgstr "[パスワード](readeck-instance://profile/password)のページでは、Readeckに接続するために使うパスワードを変更できます。"
+
+#: en/user-profile.md:13
+msgid "## API Tokens"
+msgstr "## APIトークン"
+
+#: en/user-profile.md:15
+msgid "An API Token lets you access and use the [Readeck API](readeck-instance://docs/api) for anything you'd like to build. You can create and manage tokens on the [API Tokens](readeck-instance://profile/tokens) section of your user profile."
+msgstr "APIトークンがあれば、自分で作ったどんなアプリでも[Readeck API](readeck-instance://docs/api)にアクセスして利用できるようになります。 ユーザープロフィールの[APIトークン](readeck-instance://profile/tokens)のセクションでトークンを作成し、管理できます。"
+
+#: en/user-profile.md:17
+msgid "You can limit what a given token can access through the API and for how long it's valid."
+msgstr "トークンがAPIを通して何にアクセスできるか、いつまで有効かを制限できます。"
+
+#: en/user-profile.md:19
+msgid "If you need to grant access to your Readeck account to a service or an app, you can't provide you main username and password; it won't work."
+msgstr "サービスやアプリに対してReadeckアカウントへのアクセスを許可するには、ユーザー名とパスワードを渡してはいけません。"
+
+#: en/user-profile.md:21
+msgid "Instead, you can give your username and a token of your choice as authentication credentials."
+msgstr "かわりに、認証クレデンシャルとしてユーザー名とトークンを渡します。"
+
+#~ msgid "## Change the title"
+#~ msgstr "## タイトルの変更"
+
+#~ msgid "The bookmark's title is automatically grabbed when you create it. If, for some reason, you need something else, you can change it by clicking on it and then click the button on the title side."
+#~ msgstr "ブックマークのタイトルはブックマーク作成時に自動で取得しています。なんらかの理由で別のタイトルを付けたい場合は、タイトル側にあるボタンをクリックして変更できます。"

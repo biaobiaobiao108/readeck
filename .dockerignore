@@ -1,0 +1,6 @@
+/assets/www/*
+/docs/assets/*
+/web/node_modules
+/data
+/data-*
+/tools/Containerfile
