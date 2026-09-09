@@ -23,6 +23,60 @@ export async function extractFromUrl(url: string): Promise<ExtractedArticle> {
 export function extractFromHtml(html: string, urlStr: string): ExtractedArticle {
   const { document } = parseHTML(html);
 
+  // Pre-process DOM: handle lazy loading images and convert relative URLs to absolute
+  const resolveUrl = (relative: string): string => {
+    try {
+      return new URL(relative, urlStr).toString();
+    } catch {
+      return relative;
+    }
+  };
+
+  // Remove script tags and inline event handlers
+  const scripts = document.querySelectorAll('script, noscript');
+  scripts.forEach((s) => s.remove());
+
+  // Clean elements and resolve relative links
+  const allElements = document.querySelectorAll('*');
+  allElements.forEach((el) => {
+    for (const attr of Array.from(el.attributes)) {
+      if (attr.name.toLowerCase().startsWith('on')) {
+        el.removeAttribute(attr.name);
+      }
+    }
+  });
+
+  // Handle images & lazy loading
+  const images = document.querySelectorAll('img');
+  images.forEach((img) => {
+    const dataSrc =
+      img.getAttribute('data-src') ||
+      img.getAttribute('data-original') ||
+      img.getAttribute('data-actualsrc') ||
+      img.getAttribute('data-url');
+
+    const currentSrc = img.getAttribute('src');
+
+    // If src is empty or a tiny placeholder (data:image or transparent gif) and lazy attribute exists
+    if (dataSrc && (!currentSrc || currentSrc.startsWith('data:') || currentSrc.includes('placeholder'))) {
+      img.setAttribute('src', dataSrc);
+    }
+
+    const finalSrc = img.getAttribute('src');
+    if (finalSrc && !finalSrc.startsWith('data:')) {
+      img.setAttribute('src', resolveUrl(finalSrc));
+    }
+  });
+
+  // Resolve links
+  const links = document.querySelectorAll('a');
+  links.forEach((a) => {
+    const href = a.getAttribute('href');
+    if (href && !href.startsWith('javascript:') && !href.startsWith('#') && !href.startsWith('mailto:')) {
+      a.setAttribute('href', resolveUrl(href));
+    }
+  });
+
   // Extract meta tags
   const getMeta = (names: string[]): string => {
     for (const name of names) {

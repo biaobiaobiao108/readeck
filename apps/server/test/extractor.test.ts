@@ -43,4 +43,34 @@ describe('Article Extractor', () => {
     expect(result.word_count).toBeGreaterThan(10);
     expect(result.reading_time).toBeGreaterThanOrEqual(1);
   });
+
+  it('should convert relative URLs to absolute and handle lazy loaded images', () => {
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head><title>Lazy & Relative Test</title></head>
+        <body>
+          <article>
+            <h1>Lazy & Relative Test</h1>
+            <p>Here is an article with relative resources and lazy loading images.</p>
+            <p><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="/assets/photo.jpg" alt="Photo" /></p>
+            <p><img src="images/banner.png" alt="Banner" /></p>
+            <p>Visit <a href="/docs/guide.html">the guide</a> for more info.</p>
+            <script>alert('malicious')</script>
+            <div onclick="evil()">Click me</div>
+          </article>
+        </body>
+      </html>
+    `;
+
+    const result = extractFromHtml(html, 'https://example.com/blog/article');
+
+    expect(result.html).toContain('src="https://example.com/assets/photo.jpg"');
+    expect(result.html).toContain('src="https://example.com/blog/images/banner.png"');
+    expect(result.html).toContain('href="https://example.com/docs/guide.html"');
+    expect(result.html).not.toContain('<script>');
+    expect(result.html).not.toContain('alert');
+    expect(result.html).not.toContain('onclick');
+  });
 });
+
