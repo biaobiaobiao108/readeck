@@ -91,6 +91,57 @@ bun run dev
 
 ---
 
+## 🐳 Docker 快速部署
+
+本项目提供基于最新 `oven/bun:alpine` 的极简轻量容器镜像，大小仅数十兆，单容器即可运行完整全栈服务。
+
+### 方式一：直接运行预构建镜像
+
+```bash
+docker run -d \
+  --name readeck \
+  -p 8000:8000 \
+  -v $(pwd)/data:/app/data \
+  --restart unless-stopped \
+  ghcr.io/biaobiaobiao108/readeck:latest
+```
+
+### 方式二：使用 Docker Compose
+
+在项目目录创建 `docker-compose.yml`：
+
+```yaml
+services:
+  readeck:
+    image: ghcr.io/biaobiaobiao108/readeck:latest
+    container_name: readeck
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - PORT=8000
+```
+
+启动容器：
+
+```bash
+docker compose up -d
+```
+
+### 方式三：本地自行构建镜像
+
+```bash
+# 构建镜像
+docker build -t readeck:local .
+
+# 启动镜像
+docker run -d -p 8000:8000 -v $(pwd)/data:/app/data --name readeck readeck:local
+```
+
+---
+
 ## 🔌 搭配浏览器扩展使用
 
 1. 启动服务后，在网页端注册/登录你的账户并获取 API Token。
