@@ -28,8 +28,55 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
 }) => {
   const [content, setContent] = useState<BookmarkContent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [fontSize, setFontSize] = useState<number>(18);
-  const [themeMode, setThemeMode] = useState<'light' | 'sepia' | 'dark'>('light');
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  // Preference persistence
+  const [fontSize, setFontSize] = useState<number>(() => {
+    const saved = localStorage.getItem('readeck_reader_font_size');
+    return saved ? parseInt(saved, 10) : 18;
+  });
+
+  const [themeMode, setThemeMode] = useState<'light' | 'sepia' | 'dark'>(() => {
+    const saved = localStorage.getItem('readeck_reader_theme') as 'light' | 'sepia' | 'dark' | null;
+    if (saved) return saved;
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+  });
+
+  const [fontFamily, setFontFamily] = useState<'sans' | 'serif'>(() => {
+    const saved = localStorage.getItem('readeck_reader_font_family') as 'sans' | 'serif' | null;
+    return saved || 'sans';
+  });
+
+  useEffect(() => {
+    localStorage.setItem('readeck_reader_font_size', fontSize.toString());
+  }, [fontSize]);
+
+  useEffect(() => {
+    localStorage.setItem('readeck_reader_theme', themeMode);
+  }, [themeMode]);
+
+  useEffect(() => {
+    localStorage.setItem('readeck_reader_font_family', fontFamily);
+  }, [fontFamily]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger if user is typing in an input
+      if (['input', 'textarea'].includes((e.target as HTMLElement).tagName.toLowerCase())) return;
+
+      if (e.key === 'Escape') {
+        onBack();
+      } else if (e.key === 's' || e.key === 'S') {
+        onToggleStar();
+      } else if (e.key === 'a' || e.key === 'A') {
+        onToggleArchive();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onBack, onToggleStar, onToggleArchive]);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,10 +99,18 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     };
   }, [bookmark.id]);
 
+  const handleScroll = (e: React.UIEvent<HTMLElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+    const maxScroll = scrollHeight - clientHeight;
+    if (maxScroll > 0) {
+      setScrollProgress(Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100)));
+    }
+  };
+
   const bgClasses = {
     light: 'bg-white text-neutral-900',
     sepia: 'bg-[#fbf0d9] text-[#5f4b32]',
-    dark: 'bg-[#18181b] text-neutral-100',
+    dark: 'bg-[#18181b] text-neutral-100 dark',
   }[themeMode];
 
   return (
@@ -121,6 +176,17 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             />
           </div>
 
+          {/* Font family toggle */}
+          <div className="flex items-center bg-black/5 dark:bg-white/10 rounded-lg p-0.5">
+            <button
+              onClick={() => setFontFamily((f) => (f === 'sans' ? 'serif' : 'sans'))}
+              className="px-2 py-1 text-xs font-medium hover:bg-black/5 dark:hover:bg-white/10 rounded cursor-pointer"
+              title="Toggle font family (Sans-serif / Serif)"
+            >
+              {fontFamily === 'sans' ? 'Serif' : 'Sans'}
+            </button>
+          </div>
+
           <div className="h-4 w-px bg-neutral-300 dark:bg-neutral-700 mx-1" />
 
           {/* Favorite */}
@@ -129,7 +195,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
               bookmark.is_starred ? 'text-amber-500' : ''
             }`}
-            title={bookmark.is_starred ? 'Favorited' : 'Favorite'}
+            title={bookmark.is_starred ? 'Favorited' : 'Favorite (S)'}
           >
             <Star className={`w-4 h-4 ${bookmark.is_starred ? 'fill-current' : ''}`} />
           </button>
@@ -140,7 +206,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
               bookmark.is_archived ? 'text-teal-600 dark:text-teal-400' : ''
             }`}
-            title={bookmark.is_archived ? 'Archived' : 'Archive'}
+            title={bookmark.is_archived ? 'Archived' : 'Archive (A)'}
           >
             {bookmark.is_archived ? (
               <ArchiveRestore className="w-4 h-4" />
@@ -162,9 +228,17 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
         </div>
       </header>
 
+      {/* Reading Progress Indicator */}
+      <div className="w-full h-0.5 bg-black/5 dark:bg-white/10 flex-shrink-0">
+        <div
+          className="h-full bg-teal-600 dark:bg-teal-400 transition-all duration-75 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
       {/* Article Content Area */}
-      <main className="flex-1 overflow-y-auto px-4 py-8 sm:py-12">
-        <article className="max-w-2xl mx-auto">
+      <main onScroll={handleScroll} className="flex-1 overflow-y-auto px-4 py-8 sm:py-12">
+        <article className={`max-w-2xl mx-auto ${fontFamily === 'serif' ? 'font-serif' : 'font-sans'}`}>
           {/* Metadata */}
           <div className="mb-6 space-y-2">
             <div className="flex items-center gap-2 text-xs opacity-60">

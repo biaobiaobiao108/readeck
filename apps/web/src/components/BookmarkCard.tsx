@@ -7,6 +7,7 @@ import {
   Trash2,
   Clock,
   Globe,
+  Edit3,
 } from 'lucide-react';
 import type { Bookmark } from '@readeck/shared';
 
@@ -16,6 +17,9 @@ interface BookmarkCardProps {
   onToggleStar: (e: React.MouseEvent) => void;
   onToggleArchive: (e: React.MouseEvent) => void;
   onDelete: (e: React.MouseEvent) => void;
+  onEdit: (e: React.MouseEvent) => void;
+  onSelectTag?: (tag: string) => void;
+  showStatusBadge?: boolean;
 }
 
 export const BookmarkCard: React.FC<BookmarkCardProps> = ({
@@ -24,6 +28,9 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   onToggleStar,
   onToggleArchive,
   onDelete,
+  onEdit,
+  onSelectTag,
+  showStatusBadge = false,
 }) => {
   const formattedDate = new Date(bookmark.created_at).toLocaleDateString(undefined, {
     month: 'short',
@@ -52,18 +59,32 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
 
         <div className="p-4">
           {/* Metadata bar */}
-          <div className="flex items-center gap-2 text-xs text-neutral-400 dark:text-neutral-500 mb-2">
-            <span className="flex items-center gap-1 font-medium truncate max-w-[140px]">
-              <Globe className="w-3 h-3 flex-shrink-0" />
-              {bookmark.site_name || 'Web'}
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              {bookmark.reading_time || 1} min read
-            </span>
-            <span>•</span>
-            <span>{formattedDate}</span>
+          <div className="flex items-center justify-between gap-2 text-xs text-neutral-400 dark:text-neutral-500 mb-2">
+            <div className="flex items-center gap-2 truncate">
+              <span className="flex items-center gap-1 font-medium truncate max-w-[130px]">
+                <Globe className="w-3 h-3 flex-shrink-0" />
+                {bookmark.site_name || 'Web'}
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1 flex-shrink-0">
+                <Clock className="w-3 h-3" />
+                {bookmark.reading_time || 1} min
+              </span>
+              <span>•</span>
+              <span className="flex-shrink-0">{formattedDate}</span>
+            </div>
+
+            {showStatusBadge && (
+              <span
+                className={`text-[10px] px-1.5 py-0.5 rounded font-medium flex-shrink-0 ${
+                  bookmark.is_archived
+                    ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-500'
+                    : 'bg-teal-50 dark:bg-teal-950/60 text-teal-700 dark:text-teal-300'
+                }`}
+              >
+                {bookmark.is_archived ? 'Archived' : 'Unread'}
+              </span>
+            )}
           </div>
 
           {/* Title */}
@@ -82,12 +103,18 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
           {bookmark.tags && bookmark.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 mb-2">
               {bookmark.tags.map((tag) => (
-                <span
+                <button
                   key={tag}
-                  className="inline-block text-[11px] px-2 py-0.5 rounded-full bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 font-medium"
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (onSelectTag) onSelectTag(tag);
+                  }}
+                  className="inline-block text-[11px] px-2 py-0.5 rounded-full bg-neutral-100 hover:bg-teal-100 dark:bg-neutral-800 dark:hover:bg-teal-950 text-neutral-600 hover:text-teal-700 dark:text-neutral-300 dark:hover:text-teal-300 font-medium transition-colors cursor-pointer"
+                  title={`Filter by #${tag}`}
                 >
                   #{tag}
-                </span>
+                </button>
               ))}
             </div>
           )}
@@ -128,6 +155,15 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
         </div>
 
         <div className="flex items-center gap-1">
+          {/* Edit */}
+          <button
+            onClick={onEdit}
+            title="Edit bookmark"
+            className="p-1.5 rounded-md hover:text-teal-600 dark:hover:text-teal-400 hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+          >
+            <Edit3 className="w-4 h-4" />
+          </button>
+
           {/* External link */}
           <a
             href={bookmark.url}

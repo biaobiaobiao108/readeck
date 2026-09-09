@@ -1,17 +1,19 @@
-import React, { useState } from 'react';
-import { X, Loader2, Link as LinkIcon } from 'lucide-react';
-import type { CreateBookmarkDTO } from '@readeck/shared';
+import React, { useState, useEffect } from 'react';
+import { X, Loader2, Link as LinkIcon, Tag as TagIcon } from 'lucide-react';
+import type { CreateBookmarkDTO, Tag } from '@readeck/shared';
 
 interface AddBookmarkModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (dto: CreateBookmarkDTO) => Promise<void>;
+  existingTags?: Tag[];
 }
 
 export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  existingTags = [],
 }) => {
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
@@ -21,11 +23,47 @@ export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && !isLoading) {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, isLoading, onClose]);
+
   if (!isOpen) return null;
+
+  const normalizeUrl = (input: string): string => {
+    let trimmed = input.trim();
+    if (trimmed && !/^https?:\/\//i.test(trimmed)) {
+      trimmed = `https://${trimmed}`;
+    }
+    return trimmed;
+  };
+
+  const handleTagToggle = (tagName: string) => {
+    const currentTags = tagsInput
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+    const lowerName = tagName.toLowerCase();
+    let newTags: string[];
+    if (currentTags.some((t) => t.toLowerCase() === lowerName)) {
+      newTags = currentTags.filter((t) => t.toLowerCase() !== lowerName);
+    } else {
+      newTags = [...currentTags, tagName];
+    }
+    setTagsInput(newTags.join(', '));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url.trim()) return;
+    const finalUrl = normalizeUrl(url);
+    if (!finalUrl) return;
 
     setIsLoading(true);
     setError(null);
@@ -37,7 +75,7 @@ export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
 
     try {
       await onSubmit({
-        url: url.trim(),
+        url: finalUrl,
         title: title.trim() || undefined,
         tags: tags.length > 0 ? tags : undefined,
         is_starred: isStarred,
@@ -87,14 +125,17 @@ export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
               Webpage URL <span className="text-red-500">*</span>
             </label>
             <input
-              type="url"
+              type="text"
               required
               autoFocus
               value={url}
               onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://example.com/great-article"
+              onBlur={() => {
+                if (url.trim()) setUrl(normalizeUrl(url));
+              }}
+              placeholder="https://example.com/great-article or example.com"
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
             />
           </div>
 
@@ -108,7 +149,7 @@ export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Leave blank to automatically extract title"
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
             />
           </div>
 
@@ -122,8 +163,35 @@ export const AddBookmarkModal: React.FC<AddBookmarkModalProps> = ({
               onChange={(e) => setTagsInput(e.target.value)}
               placeholder="tech, ai, tutorial"
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
             />
+            {existingTags.length > 0 && (
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
+                <span className="text-[11px] text-neutral-400 mr-1 flex items-center gap-1">
+                  <TagIcon className="w-3 h-3" /> Quick add:
+                </span>
+                {existingTags.slice(0, 8).map((tag) => {
+                  const isSelected = tagsInput
+                    .split(',')
+                    .map((t) => t.trim().toLowerCase())
+                    .includes(tag.name.toLowerCase());
+                  return (
+                    <button
+                      key={tag.id}
+                      type="button"
+                      onClick={() => handleTagToggle(tag.name)}
+                      className={`text-[11px] px-2 py-0.5 rounded-full font-medium transition-colors cursor-pointer ${
+                        isSelected
+                          ? 'bg-teal-600 text-white dark:bg-teal-500'
+                          : 'bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-600 dark:text-neutral-300'
+                      }`}
+                    >
+                      +{tag.name}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-6 pt-1">
