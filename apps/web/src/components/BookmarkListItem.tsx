@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import type { Bookmark } from '@readeck/shared';
 
-interface BookmarkCardProps {
+interface BookmarkListItemProps {
   bookmark: Bookmark;
   onClick: () => void;
   onToggleStar: (e: React.MouseEvent) => void;
@@ -24,7 +24,7 @@ interface BookmarkCardProps {
   isSelected?: boolean;
 }
 
-export const BookmarkCard: React.FC<BookmarkCardProps> = ({
+export const BookmarkListItem: React.FC<BookmarkListItemProps> = ({
   bookmark,
   onClick,
   onToggleStar,
@@ -58,97 +58,98 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
   return (
     <article
       onClick={onClick}
-      className={`group relative bg-paper-100/40 dark:bg-charcoal-900/90 border rounded-2xl overflow-hidden cursor-pointer transition-all duration-200 flex flex-col justify-between hover:shadow-lg hover:-translate-y-0.5 ${
+      className={`group relative bg-paper-100/35 dark:bg-charcoal-900/80 border rounded-2xl p-4 sm:p-5 cursor-pointer transition-all duration-200 flex flex-col sm:flex-row gap-4 sm:gap-6 justify-between items-start hover:shadow-md hover:border-paper-300 dark:hover:border-charcoal-700 ${
         isSelected
           ? 'border-brand-600 dark:border-brand-500 ring-2 ring-brand-500/20 shadow-md'
-          : 'border-paper-200 dark:border-charcoal-800/80 hover:border-paper-300 dark:hover:border-charcoal-700'
+          : 'border-paper-200 dark:border-charcoal-800/80'
       }`}
     >
-      <div>
-        {/* 封面缩略图 */}
-        {bookmark.thumbnail_url && (
-          <div className="w-full h-44 bg-paper-200/50 dark:bg-charcoal-800/50 overflow-hidden relative">
-            <img
-              src={bookmark.thumbnail_url}
-              alt={bookmark.title}
-              className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
-              onError={(e) => {
-                (e.target as HTMLElement).style.display = 'none';
-              }}
-            />
-          </div>
-        )}
-
-        <div className="p-5">
-          {/* 来源与阅读时长元数据 */}
-          <div className="flex items-center justify-between gap-2 text-xs text-charcoal-400 dark:text-charcoal-500 mb-2.5">
-            <div className="flex items-center gap-2 truncate">
-              <span className="flex items-center gap-1.5 font-medium truncate max-w-[130px] text-charcoal-500 dark:text-charcoal-400">
-                <Globe className="w-3 h-3 flex-shrink-0 opacity-70" />
-                {bookmark.site_name || '网络文章'}
-              </span>
-              <span className="opacity-40">•</span>
-              <span className="flex items-center gap-1 flex-shrink-0">
-                <Clock className="w-3 h-3 opacity-70" />
-                {bookmark.reading_time || 1} 分钟
-              </span>
-              <span className="opacity-40">•</span>
-              <span className="flex-shrink-0">{formattedDate}</span>
-            </div>
+      {/* 左侧文字与元数据 */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between h-full">
+        <div>
+          {/* 元数据行 */}
+          <div className="flex items-center gap-2 text-xs text-charcoal-400 dark:text-charcoal-500 mb-1.5">
+            <span className="flex items-center gap-1.5 font-medium truncate max-w-[140px] text-charcoal-500 dark:text-charcoal-400">
+              <Globe className="w-3 h-3 flex-shrink-0 opacity-70" />
+              {bookmark.site_name || '网络文章'}
+            </span>
+            <span className="opacity-40">•</span>
+            <span className="flex items-center gap-1 flex-shrink-0">
+              <Clock className="w-3 h-3 opacity-70" />
+              {bookmark.reading_time || 1} 分钟
+            </span>
+            <span className="opacity-40">•</span>
+            <span className="flex-shrink-0">{formattedDate}</span>
 
             {showStatusBadge && (
-              <span
-                className={`text-[10px] px-2 py-0.5 rounded-full font-medium flex-shrink-0 ${
-                  bookmark.is_archived
-                    ? 'bg-paper-200 dark:bg-charcoal-800 text-charcoal-500'
-                    : 'bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300'
-                }`}
-              >
-                {bookmark.is_archived ? '已归档' : '稍后读'}
-              </span>
+              <>
+                <span className="opacity-40">•</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.5 rounded-sm font-medium ${
+                    bookmark.is_archived
+                      ? 'bg-paper-200 dark:bg-charcoal-800 text-charcoal-500'
+                      : 'bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300'
+                  }`}
+                >
+                  {bookmark.is_archived ? '已归档' : '稍后读'}
+                </span>
+              </>
             )}
           </div>
 
-          {/* 文章标题 */}
-          <h2 className="font-serif font-bold text-base text-charcoal-900 dark:text-paper-50 line-clamp-2 mb-2 leading-snug group-hover:text-brand-700 dark:group-hover:text-brand-400 transition-colors">
+          {/* 标题 */}
+          <h2 className="font-serif font-bold text-base sm:text-lg text-charcoal-900 dark:text-paper-50 line-clamp-2 mb-2 leading-snug group-hover:text-brand-700 dark:group-hover:text-brand-400 transition-colors">
             {bookmark.title}
           </h2>
 
-          {/* 文章摘要 */}
+          {/* 摘要 */}
           {bookmark.description && (
-            <p className="text-xs text-charcoal-500 dark:text-charcoal-400 line-clamp-2 leading-relaxed mb-3 font-sans">
+            <p className="text-xs sm:text-sm text-charcoal-500 dark:text-charcoal-400 line-clamp-2 leading-relaxed mb-3 font-sans">
               {bookmark.description}
             </p>
           )}
-
-          {/* 标签 */}
-          {bookmark.tags && bookmark.tags.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 pt-1">
-              {bookmark.tags.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (onSelectTag) onSelectTag(tag);
-                  }}
-                  className="inline-flex items-center text-[11px] px-2 py-0.5 rounded-md bg-paper-200/70 hover:bg-brand-100 dark:bg-charcoal-800 dark:hover:bg-charcoal-700 text-charcoal-600 hover:text-brand-800 dark:text-charcoal-300 dark:hover:text-brand-300 font-medium transition-colors cursor-pointer"
-                  title={`查看标签 #${tag}`}
-                >
-                  #{tag}
-                </button>
-              ))}
-            </div>
-          )}
         </div>
+
+        {/* 标签列表 */}
+        {bookmark.tags && bookmark.tags.length > 0 && (
+          <div className="flex flex-wrap gap-1.5 pt-1">
+            {bookmark.tags.map((tag) => (
+              <button
+                key={tag}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  if (onSelectTag) onSelectTag(tag);
+                }}
+                className="inline-flex items-center text-[11px] px-2 py-0.5 rounded-md bg-paper-200/70 hover:bg-brand-100 dark:bg-charcoal-800 dark:hover:bg-charcoal-700 text-charcoal-600 hover:text-brand-800 dark:text-charcoal-300 dark:hover:text-brand-300 font-medium transition-colors cursor-pointer"
+                title={`查看标签 #${tag}`}
+              >
+                #{tag}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
+
+      {/* 右侧配图 (如果有) */}
+      {bookmark.thumbnail_url && (
+        <div className="w-full sm:w-36 md:w-44 h-28 sm:h-28 rounded-xl overflow-hidden bg-paper-200/50 dark:bg-charcoal-800/50 flex-shrink-0 relative">
+          <img
+            src={bookmark.thumbnail_url}
+            alt={bookmark.title}
+            className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500 ease-out"
+            onError={(e) => {
+              (e.target as HTMLElement).style.display = 'none';
+            }}
+          />
+        </div>
+      )}
 
       {/* 悬浮微操作栏 (Hover Reveal) */}
       <div
         className="absolute top-3 right-3 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-10 bg-paper-50/90 dark:bg-charcoal-900/90 backdrop-blur-md rounded-xl p-1 border border-paper-200/80 dark:border-charcoal-700/80 shadow-md"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* 标星收藏 */}
         <button
           onClick={onToggleStar}
           title={bookmark.is_starred ? '取消收藏 (S)' : '添加收藏 (S)'}
@@ -159,7 +160,6 @@ export const BookmarkCard: React.FC<BookmarkCardProps> = ({
           <Star className={`w-3.5 h-3.5 ${bookmark.is_starred ? 'fill-current' : ''}`} />
         </button>
 
-        {/* 快速归档 */}
         <button
           onClick={onToggleArchive}
           title={bookmark.is_archived ? '移回稍后读 (E)' : '归档此文章 (E)'}

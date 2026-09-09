@@ -16,7 +16,7 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, onDismis
   if (toasts.length === 0) return null;
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none">
+    <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none">
       {toasts.map((toast) => (
         <ToastItem key={toast.id} toast={toast} onDismiss={() => onDismiss(toast.id)} />
       ))}
@@ -31,33 +31,33 @@ const ToastItem: React.FC<{ toast: ToastMessage; onDismiss: () => void }> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       onDismiss();
-    }, 3500);
+    }, 3200);
     return () => clearTimeout(timer);
   }, [onDismiss]);
 
   const icons = {
-    success: <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 flex-shrink-0" />,
+    success: <CheckCircle2 className="w-4 h-4 text-brand-600 dark:text-brand-400 flex-shrink-0" />,
     error: <AlertCircle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0" />,
-    info: <Info className="w-4 h-4 text-sky-600 dark:text-sky-400 flex-shrink-0" />,
+    info: <Info className="w-4 h-4 text-charcoal-500 dark:text-charcoal-400 flex-shrink-0" />,
   };
 
   const bgStyles = {
-    success: 'border-teal-200 dark:border-teal-800/60 bg-white dark:bg-neutral-900',
-    error: 'border-red-200 dark:border-red-800/60 bg-white dark:bg-neutral-900',
-    info: 'border-sky-200 dark:border-sky-800/60 bg-white dark:bg-neutral-900',
+    success: 'border-brand-300/80 dark:border-brand-800/60 bg-paper-50/95 dark:bg-charcoal-900/95',
+    error: 'border-red-200 dark:border-red-800/60 bg-paper-50/95 dark:bg-charcoal-900/95',
+    info: 'border-paper-300 dark:border-charcoal-700 bg-paper-50/95 dark:bg-charcoal-900/95',
   };
 
   return (
     <div
-      className={`pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl border shadow-lg text-sm text-neutral-800 dark:text-neutral-200 transition-all duration-200 ${bgStyles[toast.type]}`}
+      className={`pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-2xl border shadow-xl text-xs sm:text-sm text-charcoal-800 dark:text-paper-100 backdrop-blur-md transition-all duration-200 font-sans ${bgStyles[toast.type]}`}
       role="alert"
     >
       {icons[toast.type]}
-      <span className="font-medium text-xs sm:text-sm">{toast.message}</span>
+      <span className="font-medium">{toast.message}</span>
       <button
         onClick={onDismiss}
-        className="ml-2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 cursor-pointer"
-        aria-label="Close notification"
+        className="ml-2 text-charcoal-400 hover:text-charcoal-700 dark:hover:text-paper-200 cursor-pointer"
+        aria-label="关闭通知"
       >
         <X className="w-3.5 h-3.5" />
       </button>

@@ -50,27 +50,34 @@ export const EditBookmarkModal: React.FC<EditBookmarkModalProps> = ({
       });
       onClose();
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Failed to update bookmark');
+      setError(err instanceof Error ? err.message : '更新文章详情失败');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-xs p-4 animate-fade-in">
-      <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl w-full max-w-lg shadow-xl overflow-hidden">
-        {/* Header */}
-        <div className="px-6 py-4 border-b border-neutral-200 dark:border-neutral-800 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Edit3 className="w-5 h-5 text-teal-600 dark:text-teal-400" />
-            <h2 className="font-semibold text-lg text-neutral-900 dark:text-neutral-100">
-              Edit Bookmark
+    <div
+      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-charcoal-950/40 backdrop-blur-xs p-4 animate-fade-in"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="bg-paper-50 dark:bg-charcoal-900 border border-paper-200 dark:border-charcoal-800 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden font-sans"
+      >
+        <div className="px-6 py-4 border-b border-paper-200/80 dark:border-charcoal-800 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-400 flex items-center justify-center">
+              <Edit3 className="w-4 h-4" />
+            </div>
+            <h2 className="font-serif font-bold text-lg text-charcoal-900 dark:text-paper-100">
+              编辑文章详情
             </h2>
           </div>
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-charcoal-400 hover:text-charcoal-700 dark:hover:text-paper-200 hover:bg-paper-200/50 dark:hover:bg-charcoal-800 transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -78,14 +85,14 @@ export const EditBookmarkModal: React.FC<EditBookmarkModalProps> = ({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           {error && (
-            <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg text-sm text-red-600 dark:text-red-400">
+            <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl text-xs text-red-600 dark:text-red-400">
               {error}
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-              Title
+            <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+              文章标题
             </label>
             <input
               type="text"
@@ -93,53 +100,54 @@ export const EditBookmarkModal: React.FC<EditBookmarkModalProps> = ({
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-100/40 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-              Description
+            <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+              摘要简述
             </label>
             <textarea
               rows={3}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100 resize-none"
+              placeholder="文章摘要或个人批注..."
+              className="w-full px-3.5 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-100/40 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100 resize-none placeholder:text-charcoal-400"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-              Tags (Comma-separated)
+            <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+              文章标签 <span className="text-charcoal-400 font-normal">（逗号分隔）</span>
             </label>
             <input
               type="text"
               value={tagsInput}
               onChange={(e) => setTagsInput(e.target.value)}
-              placeholder="e.g. design, tutorial, bun"
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
+              placeholder="科技, 随笔, 设计"
+              className="w-full px-3.5 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-100/40 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100 placeholder:text-charcoal-400"
             />
           </div>
 
-          <div className="flex items-center justify-end gap-3 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+          <div className="pt-4 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
               disabled={isLoading}
-              className="px-4 py-2 text-sm font-medium text-neutral-600 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors cursor-pointer"
+              className="px-4 py-2 text-xs font-medium rounded-xl text-charcoal-600 dark:text-paper-300 hover:bg-paper-200/60 dark:hover:bg-charcoal-800 transition-colors cursor-pointer"
             >
-              Cancel
+              取消
             </button>
             <button
               type="submit"
-              disabled={isLoading}
-              className="px-5 py-2 text-sm font-medium bg-teal-600 hover:bg-teal-700 text-white rounded-lg flex items-center gap-2 shadow-sm transition-colors cursor-pointer disabled:opacity-50"
+              disabled={isLoading || !title.trim()}
+              className="px-5 py-2 text-xs font-medium rounded-xl bg-charcoal-900 hover:bg-charcoal-800 text-paper-50 dark:bg-paper-100 dark:hover:bg-white dark:text-charcoal-900 shadow-xs flex items-center gap-2 transition-all cursor-pointer disabled:opacity-40"
             >
-              {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-              <span>{isLoading ? 'Saving...' : 'Save Changes'}</span>
+              {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
+              <span>{isLoading ? '保存中...' : '保存更改'}</span>
             </button>
           </div>
         </form>

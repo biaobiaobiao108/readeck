@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   ArrowLeft,
   ExternalLink,
   Star,
   Archive,
   ArchiveRestore,
-  Type,
   Clock,
   Globe,
   Loader2,
@@ -29,22 +28,25 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
   const [content, setContent] = useState<BookmarkContent | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isToolbarVisible, setIsToolbarVisible] = useState(true);
+  const lastScrollY = useRef(0);
+  const mainRef = useRef<HTMLElement>(null);
 
-  // Preference persistence
+  // 偏好持久化
   const [fontSize, setFontSize] = useState<number>(() => {
     const saved = localStorage.getItem('readeck_reader_font_size');
     return saved ? parseInt(saved, 10) : 18;
   });
 
-  const [themeMode, setThemeMode] = useState<'light' | 'sepia' | 'dark'>(() => {
-    const saved = localStorage.getItem('readeck_reader_theme') as 'light' | 'sepia' | 'dark' | null;
+  const [themeMode, setThemeMode] = useState<'paper' | 'dark' | 'white'>(() => {
+    const saved = localStorage.getItem('readeck_reader_theme') as 'paper' | 'dark' | 'white' | null;
     if (saved) return saved;
-    return document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    return document.documentElement.classList.contains('dark') ? 'dark' : 'paper';
   });
 
-  const [fontFamily, setFontFamily] = useState<'sans' | 'serif'>(() => {
-    const saved = localStorage.getItem('readeck_reader_font_family') as 'sans' | 'serif' | null;
-    return saved || 'sans';
+  const [fontFamily, setFontFamily] = useState<'serif' | 'sans'>(() => {
+    const saved = localStorage.getItem('readeck_reader_font_family') as 'serif' | 'sans' | null;
+    return saved || 'serif';
   });
 
   useEffect(() => {
@@ -59,17 +61,16 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     localStorage.setItem('readeck_reader_font_family', fontFamily);
   }, [fontFamily]);
 
-  // Keyboard navigation
+  // 键盘快捷键监听
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger if user is typing in an input
       if (['input', 'textarea'].includes((e.target as HTMLElement).tagName.toLowerCase())) return;
 
       if (e.key === 'Escape') {
         onBack();
       } else if (e.key === 's' || e.key === 'S') {
         onToggleStar();
-      } else if (e.key === 'a' || e.key === 'A') {
+      } else if (e.key === 'e' || e.key === 'E' || e.key === 'a' || e.key === 'A') {
         onToggleArchive();
       }
     };
@@ -78,6 +79,7 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onBack, onToggleStar, onToggleArchive]);
 
+  // 获取文章全文
   useEffect(() => {
     let isMounted = true;
     setIsLoading(true);
@@ -99,173 +101,217 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
     };
   }, [bookmark.id]);
 
+  // 滚动时计算进度与工具栏隐现
   const handleScroll = (e: React.UIEvent<HTMLElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     const maxScroll = scrollHeight - clientHeight;
     if (maxScroll > 0) {
       setScrollProgress(Math.min(100, Math.max(0, (scrollTop / maxScroll) * 100)));
     }
+
+    // 智能隐现浮岛
+    const currentScrollY = scrollTop;
+    if (currentScrollY < 60) {
+      setIsToolbarVisible(true);
+    } else if (currentScrollY > lastScrollY.current + 12) {
+      setIsToolbarVisible(false); // 向下快速滚动，隐藏干扰
+    } else if (currentScrollY < lastScrollY.current - 12) {
+      setIsToolbarVisible(true); // 向上回滚，浮现控制条
+    }
+    lastScrollY.current = currentScrollY;
   };
 
+  // 背景色方案
   const bgClasses = {
-    light: 'bg-white text-neutral-900',
-    sepia: 'bg-[#fbf0d9] text-[#5f4b32]',
-    dark: 'bg-[#18181b] text-neutral-100 dark',
+    paper: 'bg-[#F9F7F1] text-[#2C2723]',
+    dark: 'bg-[#151514] text-[#E2DED6]',
+    white: 'bg-white text-[#1C1C1A]',
   }[themeMode];
 
   return (
-    <div className={`fixed inset-0 z-40 flex flex-col overflow-hidden transition-colors duration-200 ${bgClasses}`}>
-      {/* Top Navbar */}
-      <header className="h-14 border-b border-neutral-200/60 dark:border-neutral-800/80 px-4 flex items-center justify-between flex-shrink-0 backdrop-blur-xs">
-        <div className="flex items-center gap-3">
+    <div
+      className={`fixed inset-0 z-50 flex flex-col overflow-hidden transition-colors duration-300 ${bgClasses}`}
+    >
+      {/* 顶部微型阅读进度条 */}
+      <div className="fixed top-0 left-0 right-0 h-[3px] bg-black/5 dark:bg-white/5 z-50">
+        <div
+          className="h-full bg-brand-600 dark:bg-brand-500 transition-all duration-100 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
+
+      {/* 悬浮胶囊工具岛 (Floating Island Toolbar) */}
+      <div
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-40 transition-all duration-300 ease-out ${
+          isToolbarVisible ? 'translate-y-0 opacity-100' : '-translate-y-12 opacity-0 pointer-events-none'
+        }`}
+      >
+        <header className="h-11 px-3.5 rounded-full border border-black/8 dark:border-white/10 bg-paper-50/90 dark:bg-charcoal-900/90 backdrop-blur-md shadow-xl flex items-center gap-3 text-xs select-none">
+          {/* 返回按钮 */}
           <button
             onClick={onBack}
-            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
-            title="Back to list"
+            className="flex items-center gap-1.5 py-1 px-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors text-charcoal-700 dark:text-paper-200 cursor-pointer font-medium"
+            title="返回文章列表 (Esc)"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">返回</span>
           </button>
-          <span className="font-semibold text-sm truncate max-w-md hidden sm:inline-block">
-            {bookmark.title}
-          </span>
-        </div>
 
-        {/* Reader controls */}
-        <div className="flex items-center gap-2">
-          {/* Font size adjustments */}
-          <div className="flex items-center bg-black/5 dark:bg-white/10 rounded-lg p-0.5">
+          <div className="h-3.5 w-px bg-black/10 dark:bg-white/10" />
+
+          {/* 字号调节 */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setFontSize((s) => Math.max(14, s - 2))}
-              className="px-2 py-1 text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 rounded cursor-pointer"
-              title="Decrease font size"
+              className="w-6 h-6 flex items-center justify-center font-bold hover:bg-black/5 dark:hover:bg-white/10 rounded-full cursor-pointer text-charcoal-700 dark:text-paper-200 text-xs"
+              title="缩小字号"
             >
               A-
             </button>
-            <Type className="w-3.5 h-3.5 mx-1 opacity-50" />
+            <span className="text-[11px] font-mono text-charcoal-400 w-5 text-center">{fontSize}</span>
             <button
               onClick={() => setFontSize((s) => Math.min(26, s + 2))}
-              className="px-2 py-1 text-xs font-bold hover:bg-black/5 dark:hover:bg-white/10 rounded cursor-pointer"
-              title="Increase font size"
+              className="w-6 h-6 flex items-center justify-center font-bold hover:bg-black/5 dark:hover:bg-white/10 rounded-full cursor-pointer text-charcoal-700 dark:text-paper-200 text-xs"
+              title="放大字号"
             >
               A+
             </button>
           </div>
 
-          {/* Theme switcher */}
-          <div className="flex items-center bg-black/5 dark:bg-white/10 rounded-lg p-0.5">
+          <div className="h-3.5 w-px bg-black/10 dark:bg-white/10" />
+
+          {/* 字体切换：宋体 / 黑体 */}
+          <button
+            onClick={() => setFontFamily((f) => (f === 'serif' ? 'sans' : 'serif'))}
+            className={`px-2 py-1 rounded-full text-[11px] font-medium transition-colors cursor-pointer ${
+              fontFamily === 'serif'
+                ? 'bg-black/8 dark:bg-white/12 text-charcoal-900 dark:text-paper-50 font-serif'
+                : 'text-charcoal-500 hover:text-charcoal-900 dark:hover:text-paper-100 font-sans'
+            }`}
+            title="切换字体（宋体 / 黑体）"
+          >
+            {fontFamily === 'serif' ? '宋体' : '黑体'}
+          </button>
+
+          <div className="h-3.5 w-px bg-black/10 dark:bg-white/10" />
+
+          {/* 主题底色切换 */}
+          <div className="flex items-center gap-1.5">
             <button
-              onClick={() => setThemeMode('light')}
-              className={`w-6 h-6 rounded-full border border-neutral-300 bg-white mx-0.5 cursor-pointer ${
-                themeMode === 'light' ? 'ring-2 ring-teal-500' : ''
+              onClick={() => setThemeMode('paper')}
+              className={`w-4 h-4 rounded-full bg-[#F9F7F1] border border-amber-300/80 cursor-pointer ${
+                themeMode === 'paper' ? 'ring-2 ring-brand-600 ring-offset-1' : ''
               }`}
-              title="Light"
+              title="宣纸暖白"
             />
             <button
-              onClick={() => setThemeMode('sepia')}
-              className={`w-6 h-6 rounded-full border border-amber-300 bg-[#fbf0d9] mx-0.5 cursor-pointer ${
-                themeMode === 'sepia' ? 'ring-2 ring-teal-500' : ''
+              onClick={() => setThemeMode('white')}
+              className={`w-4 h-4 rounded-full bg-white border border-neutral-300 cursor-pointer ${
+                themeMode === 'white' ? 'ring-2 ring-brand-600 ring-offset-1' : ''
               }`}
-              title="Sepia"
+              title="纯白明亮"
             />
             <button
               onClick={() => setThemeMode('dark')}
-              className={`w-6 h-6 rounded-full border border-neutral-700 bg-neutral-900 mx-0.5 cursor-pointer ${
-                themeMode === 'dark' ? 'ring-2 ring-teal-500' : ''
+              className={`w-4 h-4 rounded-full bg-[#151514] border border-neutral-700 cursor-pointer ${
+                themeMode === 'dark' ? 'ring-2 ring-brand-600 ring-offset-1' : ''
               }`}
-              title="Dark"
+              title="护眼夜墨"
             />
           </div>
 
-          {/* Font family toggle */}
-          <div className="flex items-center bg-black/5 dark:bg-white/10 rounded-lg p-0.5">
-            <button
-              onClick={() => setFontFamily((f) => (f === 'sans' ? 'serif' : 'sans'))}
-              className="px-2 py-1 text-xs font-medium hover:bg-black/5 dark:hover:bg-white/10 rounded cursor-pointer"
-              title="Toggle font family (Sans-serif / Serif)"
-            >
-              {fontFamily === 'sans' ? 'Serif' : 'Sans'}
-            </button>
-          </div>
+          <div className="h-3.5 w-px bg-black/10 dark:bg-white/10" />
 
-          <div className="h-4 w-px bg-neutral-300 dark:bg-neutral-700 mx-1" />
-
-          {/* Favorite */}
+          {/* 标星 */}
           <button
             onClick={onToggleStar}
-            className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
-              bookmark.is_starred ? 'text-amber-500' : ''
+            className={`p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
+              bookmark.is_starred ? 'text-amber-500' : 'text-charcoal-400 hover:text-amber-500'
             }`}
-            title={bookmark.is_starred ? 'Favorited' : 'Favorite (S)'}
+            title={bookmark.is_starred ? '已收藏 (S)' : '添加收藏 (S)'}
           >
-            <Star className={`w-4 h-4 ${bookmark.is_starred ? 'fill-current' : ''}`} />
+            <Star className={`w-3.5 h-3.5 ${bookmark.is_starred ? 'fill-current' : ''}`} />
           </button>
 
-          {/* Archive */}
+          {/* 归档 */}
           <button
             onClick={onToggleArchive}
-            className={`p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
-              bookmark.is_archived ? 'text-teal-600 dark:text-teal-400' : ''
+            className={`p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer ${
+              bookmark.is_archived
+                ? 'text-brand-600 dark:text-brand-400'
+                : 'text-charcoal-400 hover:text-brand-600'
             }`}
-            title={bookmark.is_archived ? 'Archived' : 'Archive (A)'}
+            title={bookmark.is_archived ? '移回稍后读 (E)' : '归档文章 (E)'}
           >
             {bookmark.is_archived ? (
-              <ArchiveRestore className="w-4 h-4" />
+              <ArchiveRestore className="w-3.5 h-3.5" />
             ) : (
-              <Archive className="w-4 h-4" />
+              <Archive className="w-3.5 h-3.5" />
             )}
           </button>
 
-          {/* Original link */}
+          {/* 原文直达 */}
           <a
             href={bookmark.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="p-2 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer"
-            title="Open original webpage"
+            className="p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 text-charcoal-400 hover:text-charcoal-700 dark:hover:text-paper-100 transition-colors cursor-pointer"
+            title="在新标签页查看原始网页"
           >
-            <ExternalLink className="w-4 h-4" />
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
-        </div>
-      </header>
-
-      {/* Reading Progress Indicator */}
-      <div className="w-full h-0.5 bg-black/5 dark:bg-white/10 flex-shrink-0">
-        <div
-          className="h-full bg-teal-600 dark:bg-teal-400 transition-all duration-75 ease-out"
-          style={{ width: `${scrollProgress}%` }}
-        />
+        </header>
       </div>
 
-      {/* Article Content Area */}
-      <main onScroll={handleScroll} className="flex-1 overflow-y-auto px-4 py-8 sm:py-12">
-        <article className={`max-w-2xl mx-auto ${fontFamily === 'serif' ? 'font-serif' : 'font-sans'}`}>
-          {/* Metadata */}
-          <div className="mb-6 space-y-2">
-            <div className="flex items-center gap-2 text-xs opacity-60">
-              <Globe className="w-3.5 h-3.5" />
-              <span>{bookmark.site_name || 'Web'}</span>
+      {/* 正文阅读滚动流 */}
+      <main
+        ref={mainRef}
+        onScroll={handleScroll}
+        className="flex-1 overflow-y-auto px-5 sm:px-8 py-16 sm:py-24 selection:bg-brand-500/20"
+      >
+        <article
+          className={`max-w-[700px] mx-auto ${
+            fontFamily === 'serif' ? 'font-serif' : 'font-sans'
+          }`}
+        >
+          {/* 文章头部元数据 */}
+          <header className="mb-10 space-y-4">
+            <div className="flex flex-wrap items-center gap-2 text-xs opacity-60 font-sans">
+              <span className="flex items-center gap-1.5 font-medium">
+                <Globe className="w-3 h-3" />
+                {bookmark.site_name || '网络来源'}
+              </span>
               <span>•</span>
-              <Clock className="w-3.5 h-3.5" />
-              <span>{bookmark.reading_time || 1} min read</span>
+              <span className="flex items-center gap-1">
+                <Clock className="w-3 h-3" />
+                约 {bookmark.reading_time || 1} 分钟阅读
+              </span>
               {bookmark.author && (
                 <>
                   <span>•</span>
-                  <span>By {bookmark.author}</span>
+                  <span>作者：{bookmark.author}</span>
                 </>
               )}
             </div>
 
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight leading-[1.3] text-inherit">
               {bookmark.title}
             </h1>
-          </div>
 
+            {bookmark.description && (
+              <p className="text-sm sm:text-base opacity-75 font-sans leading-relaxed pt-1">
+                {bookmark.description}
+              </p>
+            )}
+          </header>
+
+          {/* 封面图 */}
           {bookmark.thumbnail_url && (
-            <div className="mb-8 rounded-xl overflow-hidden shadow-sm">
+            <div className="mb-10 rounded-2xl overflow-hidden shadow-xs">
               <img
                 src={bookmark.thumbnail_url}
                 alt={bookmark.title}
-                className="w-full max-h-[400px] object-cover"
+                className="w-full max-h-[420px] object-cover"
                 onError={(e) => {
                   (e.target as HTMLElement).style.display = 'none';
                 }}
@@ -273,10 +319,11 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
             </div>
           )}
 
+          {/* 文章正文 */}
           {isLoading ? (
-            <div className="flex flex-col items-center justify-center py-20 text-teal-600 gap-3">
-              <Loader2 className="w-8 h-8 animate-spin" />
-              <span className="text-sm">Loading article...</span>
+            <div className="flex flex-col items-center justify-center py-28 text-brand-600 gap-3">
+              <Loader2 className="w-7 h-7 animate-spin" />
+              <span className="text-xs font-sans tracking-wide">正在解析并呈现排版...</span>
             </div>
           ) : content?.html ? (
             <div
@@ -285,16 +332,40 @@ export const ReaderView: React.FC<ReaderViewProps> = ({
               dangerouslySetInnerHTML={{ __html: content.html }}
             />
           ) : (
-            <div className="py-12 text-center opacity-70 text-sm">
-              No reader content extracted. You can view the original article at{' '}
-              <a
-                href={bookmark.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-teal-600 underline font-medium"
-              >
-                {bookmark.url}
-              </a>
+            <div className="py-20 text-center opacity-75 text-sm font-sans space-y-3">
+              <p>暂未能提取到纯净文本内容。</p>
+              <div>
+                <a
+                  href={bookmark.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 text-brand-700 dark:text-brand-400 font-medium transition-colors"
+                >
+                  <span>直达原网页阅读</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* 底部阅读完成打卡区 */}
+          {!isLoading && content?.html && (
+            <div className="mt-16 pt-8 border-t border-black/10 dark:border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-sans text-xs opacity-70">
+              <span>恭喜读完本篇！</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={onToggleArchive}
+                  className="px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/10 hover:bg-black/10 dark:hover:bg-white/15 transition-colors cursor-pointer"
+                >
+                  {bookmark.is_archived ? '移回稍后读' : '归档本篇 (E)'}
+                </button>
+                <button
+                  onClick={onBack}
+                  className="px-3 py-1.5 rounded-lg bg-brand-600 text-white hover:bg-brand-700 transition-colors cursor-pointer"
+                >
+                  返回列表 (Esc)
+                </button>
+              </div>
             </div>
           )}
         </article>

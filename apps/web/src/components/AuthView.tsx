@@ -19,11 +19,11 @@ export const AuthView: React.FC<AuthViewProps> = ({ onSuccess }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (username.trim().length < 3) {
-      setError('Username must be at least 3 characters');
+      setError('用户名长度至少需 3 个字符');
       return;
     }
     if (password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError('密码长度至少需 6 个字符');
       return;
     }
 
@@ -39,54 +39,54 @@ export const AuthView: React.FC<AuthViewProps> = ({ onSuccess }) => {
         onSuccess(res.user);
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Authentication failed');
+      setError(err instanceof Error ? err.message : '身份验证失败，请检查输入');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-100 dark:bg-neutral-950 p-4">
-      <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-2xl w-full max-w-md p-8 shadow-xl">
-        {/* Header */}
+    <div className="min-h-screen flex items-center justify-center bg-paper-50 dark:bg-charcoal-950 p-4 select-none font-sans">
+      <div className="bg-paper-100/50 dark:bg-charcoal-900 border border-paper-200 dark:border-charcoal-800 rounded-3xl w-full max-w-md p-8 sm:p-10 shadow-xl">
+        {/* 顶部品牌 */}
         <div className="flex flex-col items-center mb-8 text-center">
-          <div className="w-12 h-12 rounded-xl bg-teal-600 flex items-center justify-center text-white shadow-md mb-3">
-            <BookmarkIcon className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-charcoal-900 text-paper-50 dark:bg-paper-100 dark:text-charcoal-900 flex items-center justify-center shadow-md mb-4">
+            <BookmarkIcon className="w-6 h-6 fill-current" />
           </div>
-          <h1 className="text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight">
+          <h1 className="text-2xl font-serif font-bold text-charcoal-900 dark:text-paper-50 tracking-tight">
             Readeck
           </h1>
-          <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-            {isRegister ? 'Create your Readeck account' : 'Welcome back to your reading deck'}
+          <p className="text-xs text-charcoal-500 dark:text-charcoal-400 mt-1.5 font-serif">
+            {isRegister ? '开启专属的沉浸阅读之旅' : '欢迎回到属于你的阅读随笔馆'}
           </p>
         </div>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-lg text-sm text-red-600 dark:text-red-400">
+          <div className="mb-5 p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl text-xs text-red-600 dark:text-red-400">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-              Username
+            <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+              用户名
             </label>
             <input
               type="text"
               required
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
+              placeholder="请输入用户名"
               disabled={isLoading}
-              className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-50/60 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100 placeholder:text-charcoal-400"
             />
           </div>
 
           {isRegister && (
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-                Email Address
+              <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+                电子邮箱
               </label>
               <input
                 type="email"
@@ -95,14 +95,14 @@ export const AuthView: React.FC<AuthViewProps> = ({ onSuccess }) => {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
                 disabled={isLoading}
-                className="w-full px-3.5 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500"
+                className="w-full px-4 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-50/60 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100 placeholder:text-charcoal-400"
               />
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-500 mb-1">
-              Password
+            <label className="block text-xs font-medium text-charcoal-700 dark:text-paper-300 mb-1.5">
+              登录密码
             </label>
             <div className="relative">
               <input
@@ -112,13 +112,13 @@ export const AuthView: React.FC<AuthViewProps> = ({ onSuccess }) => {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 disabled={isLoading}
-                className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700 bg-transparent text-sm focus:outline-hidden focus:ring-2 focus:ring-teal-500 text-neutral-900 dark:text-neutral-100"
+                className="w-full pl-4 pr-10 py-2.5 rounded-xl border border-paper-300 dark:border-charcoal-700 bg-paper-50/60 dark:bg-charcoal-800/60 text-sm focus:outline-hidden focus:ring-2 focus:ring-brand-500 text-charcoal-900 dark:text-paper-100 placeholder:text-charcoal-400"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 tabIndex={-1}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-charcoal-400 hover:text-charcoal-600 dark:hover:text-paper-200 cursor-pointer"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -128,40 +128,40 @@ export const AuthView: React.FC<AuthViewProps> = ({ onSuccess }) => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white rounded-lg font-medium text-sm flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer disabled:opacity-50 mt-2"
+            className="w-full mt-2 py-2.5 px-4 bg-charcoal-900 hover:bg-charcoal-800 text-paper-50 dark:bg-paper-100 dark:hover:bg-white dark:text-charcoal-900 rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-xs transition-all cursor-pointer disabled:opacity-50"
           >
             {isLoading && <Loader2 className="w-4 h-4 animate-spin" />}
-            <span>{isRegister ? 'Sign Up' : 'Sign In'}</span>
+            <span>{isRegister ? '注册账号' : '立即登录'}</span>
           </button>
         </form>
 
-        <div className="mt-6 text-center text-xs text-neutral-500 dark:text-neutral-400">
+        <div className="mt-6 text-center text-xs text-charcoal-500 dark:text-charcoal-400">
           {isRegister ? (
             <span>
-              Already have an account?{' '}
+              已有账号？{' '}
               <button
                 type="button"
                 onClick={() => {
                   setIsRegister(false);
                   setError(null);
                 }}
-                className="text-teal-600 dark:text-teal-400 font-semibold hover:underline cursor-pointer"
+                className="text-brand-600 dark:text-brand-400 font-semibold hover:underline cursor-pointer"
               >
-                Sign In
+                返回登录
               </button>
             </span>
           ) : (
             <span>
-              Don't have an account?{' '}
+              还没有账号？{' '}
               <button
                 type="button"
                 onClick={() => {
                   setIsRegister(true);
                   setError(null);
                 }}
-                className="text-teal-600 dark:text-teal-400 font-semibold hover:underline cursor-pointer"
+                className="text-brand-600 dark:text-brand-400 font-semibold hover:underline cursor-pointer"
               >
-                Sign Up
+                创建新账号
               </button>
             </span>
           )}
